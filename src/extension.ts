@@ -2,6 +2,7 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
 import { MentorViewProvider } from './mentorViewProvider';
+import { MentorService } from './mentorService';
 
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
@@ -12,7 +13,10 @@ export function activate(context: vscode.ExtensionContext) {
 	console.log('Congratulations, your extension "forge" is now active!');
 
 	// The command has been defined in the package.json file
-	const provider = new MentorViewProvider();
+	const mentorService = new MentorService();
+
+	const provider = new MentorViewProvider(mentorService);
+
 	const disposable1 = vscode.window.registerWebviewViewProvider(
 		'forgeMentor.chat',
 		provider

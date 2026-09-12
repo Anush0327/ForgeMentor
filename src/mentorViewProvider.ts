@@ -1,7 +1,15 @@
 
 import * as vscode from 'vscode';
+import { MentorService } from './mentorService';
 
 export class MentorViewProvider implements vscode.WebviewViewProvider {
+
+    private mentorService: MentorService;
+
+    constructor(mentorService: MentorService) {
+        this.mentorService = mentorService;
+    }
+
     resolveWebviewView(
         webviewView: vscode.WebviewView,
         context: vscode.WebviewViewResolveContext,
@@ -14,12 +22,10 @@ export class MentorViewProvider implements vscode.WebviewViewProvider {
         webviewView.webview.html = this._getHtml();
 
         // Handle messages sent from the webview
-        webviewView.webview.onDidReceiveMessage(message => {
+        webviewView.webview.onDidReceiveMessage(async message => {
             if (message.command === 'askMentor') {
-                if (message.text === "who is using the chat") {
-                    webviewView.webview.postMessage({ command: 'messageresponse', text: 'Anush is using the application' });
-                }
-
+                const response = await this.mentorService.askMentor(message.text);
+                webviewView.webview.postMessage({ command: 'messageresponse', text: response });
             }
         });
 
