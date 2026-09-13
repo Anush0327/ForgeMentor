@@ -20,6 +20,7 @@ export class MentorViewProvider implements vscode.WebviewViewProvider {
         webviewView.webview.html = this._getHtml();
 
         webviewView.webview.onDidReceiveMessage(async message => {
+
             if (message.command === 'askMentor') {
                 try {
 

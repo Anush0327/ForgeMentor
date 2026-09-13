@@ -2,7 +2,7 @@ import { MentorResponse } from "./mentorModels";
 import { MentorRequest } from "./mentorModels";
 
 export class MentorAPIClient {
-    private readonly baseUrl: string = "http://localhost:8000";
+    private readonly baseUrl: string = "http://localhost:8080";
 
     private async _request(endpoint: string, request: MentorRequest): Promise<MentorResponse> {
         const response = await fetch(`${this.baseUrl}${endpoint}`, {
