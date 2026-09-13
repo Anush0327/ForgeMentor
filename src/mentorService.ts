@@ -1,19 +1,30 @@
-import * as vscode from 'vscode';
+import { MentorAPIClient } from "./mentorAPIClient";
+import { MentorRequest, MentorResponse } from "./mentorModels";
+
 
 export class MentorService {
-    // Simple placeholder implementations. In a real extension, these would call an AI service or backend.
-    askMentor(message: string): Promise<string> {
-        const response = `Mentor response to: ${message}`;
-        return Promise.resolve(response);
+
+    private mentorAPIClient: MentorAPIClient;
+
+    constructor(mentorAPIClient: MentorAPIClient) {
+        this.mentorAPIClient = mentorAPIClient;
     }
 
-    giveHint(message: string): Promise<string> {
-        const response = `Hint for: ${message}`;
-        return Promise.resolve(response);
+    async askMentor(message: string): Promise<string> {
+        const request: MentorRequest = { query: message };
+        const response: MentorResponse = await this.mentorAPIClient.askMentor(request);
+        return response.response;
     }
 
-    explainCode(message: string): Promise<string> {
-        const response = `Explanation for: ${message}`;
-        return Promise.resolve(response);
+    async giveHint(message: string): Promise<string> {
+        const request: MentorRequest = { query: message };
+        const response: MentorResponse = await this.mentorAPIClient.giveHint(request);
+        return response.response;
+    }
+
+    async explainCode(message: string): Promise<string> {
+        const request: MentorRequest = { query: message };
+        const response: MentorResponse = await this.mentorAPIClient.explainCode(request);
+        return response.response;
     }
 }

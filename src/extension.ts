@@ -3,6 +3,7 @@
 import * as vscode from 'vscode';
 import { MentorViewProvider } from './mentorViewProvider';
 import { MentorService } from './mentorService';
+import { MentorAPIClient } from './mentorAPIClient';
 
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
@@ -13,7 +14,8 @@ export function activate(context: vscode.ExtensionContext) {
 	console.log('Congratulations, your extension "forge" is now active!');
 
 	// The command has been defined in the package.json file
-	const mentorService = new MentorService();
+	const mentorAPIClient = new MentorAPIClient();
+	const mentorService = new MentorService(mentorAPIClient);
 
 	const provider = new MentorViewProvider(mentorService);
 

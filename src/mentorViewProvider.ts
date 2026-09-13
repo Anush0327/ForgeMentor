@@ -16,16 +16,20 @@ export class MentorViewProvider implements vscode.WebviewViewProvider {
         token: vscode.CancellationToken
     ): Thenable<void> | void {
 
-        // Enable JS so the button can send messages
         webviewView.webview.options = { enableScripts: true };
-
         webviewView.webview.html = this._getHtml();
 
-        // Handle messages sent from the webview
         webviewView.webview.onDidReceiveMessage(async message => {
             if (message.command === 'askMentor') {
-                const response = await this.mentorService.askMentor(message.text);
-                webviewView.webview.postMessage({ command: 'messageresponse', text: response });
+                try {
+
+                    const response = await this.mentorService.askMentor(message.text);
+                    webviewView.webview.postMessage({ command: 'messageresponse', text: response });
+                } catch (err) {
+                    const errorMessage = (err instanceof Error) ? err.message : "Error";
+                    console.error("Error: ", errorMessage);
+                    webviewView.webview.postMessage({ command: 'messageresponse', text: "Error: " + errorMessage });
+                }
             }
         });
 
