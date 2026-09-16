@@ -17,7 +17,7 @@ export function activate(context: vscode.ExtensionContext) {
 	const mentorAPIClient = new MentorAPIClient();
 	const mentorService = new MentorService(mentorAPIClient);
 
-	const provider = new MentorViewProvider(mentorService);
+	const provider = new MentorViewProvider(mentorService, context);
 
 	const disposable1 = vscode.window.registerWebviewViewProvider(
 		'forgeMentor.chat',
