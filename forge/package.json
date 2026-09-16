@@ -22,17 +22,18 @@
       "activitybar": [
         {
           "title": "ForgeMentor",
-          "icon": "C:/Users/akash/Downloads/hammer-svgrepo-com.svg",
+          "icon": "./resources/icons/forge-logo.svg",
           "id": "forgeMentor"
         }
       ]
     },
     "views": {
-      "forgeMentor":[
+      "forgeMentor": [
         {
           "name": "Mentor",
-          "id":"forgeMentor.chat",
-          "type": "webview"
+          "id": "forgeMentor.chat",
+          "type": "webview",
+          "icon": "$(comment-discussion)"
         }
       ]
     }

@@ -5,5 +5,6 @@ export interface MentorResponse {
 }
 
 export interface MentorRequest {
-    query: string;
+    query: String,
+    model: String
 }
