@@ -7,6 +7,7 @@ import { text } from 'stream/consumers';
 
 export class MentorViewProvider implements vscode.WebviewViewProvider {
 
+    private webviewView?: vscode.WebviewView;
     private mentorService: MentorService;
 
     private context: vscode.ExtensionContext;
@@ -25,8 +26,11 @@ export class MentorViewProvider implements vscode.WebviewViewProvider {
         token: vscode.CancellationToken
     ): Thenable<void> | void {
 
+        this.webviewView = webviewView;
+
         webviewView.webview.options = { enableScripts: true };
         webviewView.webview.html = this._getReactHtml(webviewView.webview);
+
 
         webviewView.webview.onDidReceiveMessage(async message => {
 
@@ -47,6 +51,12 @@ export class MentorViewProvider implements vscode.WebviewViewProvider {
 
     }
 
+    public sendSelectedCode(code: string) {
+        this.webviewView?.webview.postMessage({
+            command: "selectedCode",
+            code: code
+        });
+    }
     private _getReactHtml(webview: vscode.Webview): string {
 
         const distPath = path.join(

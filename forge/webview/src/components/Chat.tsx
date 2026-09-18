@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Message, { type Message as MessageType } from "./Message";
 
 const vscode = acquireVsCodeApi();
@@ -8,6 +8,19 @@ function Chat() {
     const [input, setInput] = useState("");
     const [loading, setLoading] = useState(false);
 
+    useEffect(() => {
+        const listener = (event: MessageEvent) => {
+            if (event.data.command === "selectedCode") {
+                setInput(prev => prev + event.data.code);
+            }
+        };
+
+        window.addEventListener("message", listener);
+
+        return () => {
+            window.removeEventListener("message", listener);
+        };
+    }, []);
     const handleSubmit = async () => {
         if (!input.trim()) return;
 

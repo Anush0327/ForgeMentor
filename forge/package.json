@@ -16,8 +16,20 @@
       {
         "command": "forge.askMentor",
         "title": "Ask ForgeMentor"
+      },
+      {
+        "command": "forge.askSelectedCode",
+        "title": "Ask ForgeMentor About Selected Code"
       }
     ],
+    "menus": {
+      "editor/context": [
+        {
+          "when": "editorTextFocus && editorHasSelection",
+          "command": "forge.askSelectedCode"
+        }
+      ]
+    },
     "viewsContainers": {
       "activitybar": [
         {
