@@ -12,6 +12,16 @@
   "activationEvents": [],
   "main": "./out/extension.js",
   "contributes": {
+    "configuration": {
+      "title": "ForgeMentor",
+      "properties": {
+        "forgeMentor.backendUrl": {
+          "type": "string",
+          "default": "http://localhost:8080",
+          "description": "URL of the ForgeMentor backend"
+        }
+      }
+    },
     "commands": [
       {
         "command": "forge.askMentor",

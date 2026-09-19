@@ -1,8 +1,15 @@
 import { MentorResponse } from "./mentorModels";
 import { MentorRequest } from "./mentorModels";
+import * as vscode from "vscode";
 
 export class MentorAPIClient {
-    private readonly baseUrl: string = "http://localhost:8080";
+    private readonly baseUrl: string;
+
+    constructor() {
+        this.baseUrl = vscode.workspace
+            .getConfiguration("forgeMentor")
+            .get<string>("backendUrl", "http://localhost:8080");
+    }
 
     private async _request(endpoint: string, request: MentorRequest): Promise<MentorResponse> {
         const response = await fetch(`${this.baseUrl}${endpoint}`, {
