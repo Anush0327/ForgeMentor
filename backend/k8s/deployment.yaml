@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: forgementor-backend
+  namespace: forgementor
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: forgementor-backend
+
+  template:
+    metadata:
+      labels:
+        app: forgementor-backend
+
+    spec:
+      containers:
+        - name: backend
+          image: forgementor-backend:0.1.0
+
+          ports:
+            - containerPort: 8080
+
+          envFrom:
+            - configMapRef:
+                name: forgementor-config
+
+            - secretRef:
+                name: forgementor-secrets
+
+          resources:
+            requests:
+              cpu: "250m"
+              memory: "512Mi"
+            limits:
+              cpu: "1"
+              memory: "1Gi"
+
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8080
+            initialDelaySeconds: 20
+            periodSeconds: 10
+
+          livenessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8080
+            initialDelaySeconds: 30
+            periodSeconds: 20

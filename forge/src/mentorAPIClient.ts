@@ -8,7 +8,7 @@ export class MentorAPIClient {
     constructor() {
         this.baseUrl = vscode.workspace
             .getConfiguration("forgeMentor")
-            .get<string>("backendUrl", "http://localhost:8080");
+            .get<string>("backendUrl", "http://forgementor.local");
     }
 
     private async _request(endpoint: string, request: MentorRequest): Promise<MentorResponse> {

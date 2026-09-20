@@ -1,71 +1,81 @@
-# forge README
+# ForgeMentor
 
-This is the README for your extension "forge". After writing up a brief description, we recommend including the following sections.
+**AI-powered software engineering mentor for VS Code.**
+
+ForgeMentor helps developers understand code, reason through problems, and learn software engineering concepts instead of simply generating solutions.
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+* 💬 Ask ForgeMentor technical questions directly from VS Code
+* 🧠 Get explanations focused on reasoning and understanding
+* ✨ React-based interactive chat interface
+* 🤖 Gemini-powered mentoring
+* 📋 Send selected code directly to ForgeMentor
+* 🔌 Configurable backend endpoint
+* ☁️ Spring Boot backend deployed with Docker and Kubernetes
 
-For example if there is an image subfolder under your extension project workspace:
+## Architecture
 
-\!\[feature X\]\(images/feature-x.png\)
+```text
+VS Code Extension
+       │
+       ▼
+React WebView
+       │
+       ▼
+ForgeMentor Backend
+       │
+       ▼
+Spring AI
+       │
+       ▼
+Google Gemini
+```
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+## Development
 
-## Requirements
+### Extension
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+```bash
+npm install
+npm run compile
+```
 
-## Extension Settings
+### React WebView
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+```bash
+cd webview
+npm install
+npm run build
+```
 
-For example:
+### Backend
 
-This extension contributes the following settings:
+```bash
+cd ../backend
+./mvnw spring-boot:run
+```
 
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
+## Configuration
 
-## Known Issues
+ForgeMentor supports configuring the backend URL through the VS Code setting:
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+```text
+forgeMentor.backendUrl
+```
 
-## Release Notes
+The default backend URL is:
 
-Users appreciate release notes as you update your extension.
+```text
+http://forgementor.local
+```
 
-### 1.0.0
+## Project Status
 
-Initial release of ...
+**Version:** 0.1.0
 
-### 1.0.1
+This release represents the initial MVP of ForgeMentor.
 
-Fixed issue #.
+## License
 
-### 1.1.0
-
-Added features X, Y, and Z.
-
----
-
-## Following extension guidelines
-
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
-
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
-
-## Working with Markdown
-
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
-
-## For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+MIT

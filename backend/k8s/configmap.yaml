@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: forgementor-config
+  namespace: forgementor
+data:
+  SPRING_APPLICATION_NAME: backend
+  SERVER_PORT: "8080"
+  SPRING_AI_GOOGLE_GENAI_CHAT_MODEL: gemini-3.8-flash
