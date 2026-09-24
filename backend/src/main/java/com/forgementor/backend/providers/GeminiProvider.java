@@ -5,7 +5,6 @@ import com.forgementor.backend.interfaces.MentorProvider;
 import com.forgementor.backend.dto.MentorProviderRequest;
 import com.forgementor.backend.dto.MentorProviderResponse;
 import org.springframework.ai.google.genai.GoogleGenAiChatModel;
-import com.forgementor.backend.dto.MentorMode;
 
 @Component("gemini")
 public class GeminiProvider implements MentorProvider {

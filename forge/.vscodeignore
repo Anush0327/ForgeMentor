@@ -16,4 +16,4 @@ vsc-extension-quickstart.md
 **/.gitignore
 **/package-lock.json
 **/tsconfig.*.json
-**/eslint.config.*
+**/eslint.config.*AZURE_PAT.txt

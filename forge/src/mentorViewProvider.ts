@@ -57,6 +57,7 @@ export class MentorViewProvider implements vscode.WebviewViewProvider {
             code: code
         });
     }
+    
     private _getReactHtml(webview: vscode.Webview): string {
 
         const distPath = path.join(

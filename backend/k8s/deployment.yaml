@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: forgementor-backend:0.1.0
+          image: forgementoracr.azurecr.io/forgementor-backend:0.1.0
 
           ports:
             - containerPort: 8080
