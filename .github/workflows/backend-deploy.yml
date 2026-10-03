@@ -1,4 +1,4 @@
-name: ForgeMentor Backend Deploy
+name: ForgeMentor Backend Deploy V2
 
 on:
   push:
