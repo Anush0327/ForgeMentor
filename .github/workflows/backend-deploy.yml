@@ -28,6 +28,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
       - name: Inspect GitHub OIDC environment
         run: |
           echo "Repository: $GITHUB_REPOSITORY"
@@ -36,6 +44,9 @@ jobs:
           echo "Owner ID: ${{ github.event.organization.id }}"
           echo "Workflow: $GITHUB_WORKFLOW"
           echo "Ref: $GITHUB_REF"
+
+      - name: Azure login
+        uses: azure/login@v2
         with:
           client-id: 661f2bfd-b71f-478b-9e9f-fc47cf923570
           tenant-id: 594a3f12-3ee3-431a-b52d-c3f6e259462d
