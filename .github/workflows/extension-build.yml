@@ -1,0 +1,60 @@
+name: ForgeMentor Extension Build
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'forge/**'
+      - '.github/workflows/extension-build.yml'
+
+  pull_request:
+    paths:
+      - 'forge/**'
+      - '.github/workflows/extension-build.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  build-extension:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: |
+            forge/package-lock.json
+            forge/webview/package-lock.json
+
+      - name: Install webview dependencies
+        working-directory: forge/webview
+        run: npm ci
+
+      - name: Build webview
+        working-directory: forge/webview
+        run: npm run build
+
+      - name: Install extension dependencies
+        working-directory: forge
+        run: npm ci
+
+      - name: Compile extension
+        working-directory: forge
+        run: npm run compile
+
+      - name: Package VSIX
+        working-directory: forge
+        run: npx vsce package
+
+      - name: Upload VSIX
+        uses: actions/upload-artifact@v4
+        with:
+          name: forgementor-extension
+          path: forge/*.vsix
