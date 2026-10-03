@@ -51,7 +51,11 @@ jobs:
       - name: Set image tag
         id: image
         run: echo "tag=${GITHUB_SHA}" >> "$GITHUB_OUTPUT"
-
+        
+      - name: Build backend
+        working-directory: backend
+        run: ./mvnw clean package -DskipTests
+        
       - name: Build Docker image
         working-directory: backend
         run: docker build -t "${ACR_LOGIN_SERVER}/${IMAGE_NAME}:${{ steps.image.outputs.tag }}" .
