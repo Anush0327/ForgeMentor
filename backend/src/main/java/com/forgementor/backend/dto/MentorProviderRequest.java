@@ -11,4 +11,6 @@ public class MentorProviderRequest {
 
     private MentorMode mode;
 
+    private String authHeader;
+
 }

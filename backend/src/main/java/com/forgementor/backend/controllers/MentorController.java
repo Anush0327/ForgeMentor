@@ -9,6 +9,8 @@ import com.forgementor.backend.dto.MentorRequest;
 import com.forgementor.backend.dto.MentorResponse;
 import com.forgementor.backend.services.MentorService;
 
+import org.springframework.web.bind.annotation.RequestHeader;
+
 @RestController
 @RequestMapping("/api")
 public class MentorController {
@@ -20,17 +22,23 @@ public class MentorController {
     }
 
     @PostMapping("/ask-mentor")
-    public MentorResponse askMentor(@RequestBody MentorRequest request) {
-        return mentorService.askMentor(request);
+    public MentorResponse askMentor(@RequestHeader(value="Authorization", required=false) String authHeader, @RequestBody MentorRequest request) {
+        System.out.println("CONTROLLER AUTH HEADER PRESENT: "
+        + (authHeader != null));
+
+        System.out.println("CONTROLLER AUTH HEADER LENGTH: "
+        + (authHeader == null ? 0 : authHeader.length()));
+        
+        return mentorService.askMentor(request, authHeader);
     }
 
     @PostMapping("/give-hint")
-    public MentorResponse giveHint(@RequestBody MentorRequest request) {
-        return mentorService.giveHint(request);
+    public MentorResponse giveHint(@RequestHeader(value="Authorization", required=false) String authHeader, @RequestBody MentorRequest request) {
+        return mentorService.giveHint(request, authHeader);
     }
 
     @PostMapping("/explain-code")
-    public MentorResponse explainCode(@RequestBody MentorRequest request) {
-        return mentorService.explainCode(request);
+    public MentorResponse explainCode(@RequestHeader(value="Authorization", required=false) String authHeader, @RequestBody MentorRequest request) {
+        return mentorService.explainCode(request, authHeader);
     }
 }

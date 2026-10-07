@@ -19,11 +19,12 @@ public class MentorService {
 
     // ── Private helper ────────────────────────────────────────────────────────
 
-    private String generate(MentorRequest request, MentorMode mode) {
+    private String generate(MentorRequest request, MentorMode mode, String authHeader) {
         MentorProviderRequest providerRequest = new MentorProviderRequest();
         providerRequest.setModel(request.getModel());
         providerRequest.setQuery(request.getQuery());
         providerRequest.setMode(mode);
+        providerRequest.setAuthHeader(authHeader);
         return resolver.resolve(providerRequest.getModel())
                 .generate(providerRequest)
                 .getResponse();
@@ -37,16 +38,16 @@ public class MentorService {
 
     // ── Public API ────────────────────────────────────────────────────────────
 
-    public MentorResponse askMentor(MentorRequest request) {
-        return responseOf(generate(request, MentorMode.ASK));
+    public MentorResponse askMentor(MentorRequest request, String authHeader) {
+        return responseOf(generate(request, MentorMode.ASK, authHeader));
     }
 
-    public MentorResponse giveHint(MentorRequest request) {
-        return responseOf(generate(request, MentorMode.HINT));
+    public MentorResponse giveHint(MentorRequest request, String authHeader) {
+        return responseOf(generate(request, MentorMode.HINT, authHeader));
     }
 
-    public MentorResponse explainCode(MentorRequest request) {
-        return responseOf(generate(request, MentorMode.EXPLAIN_CODE));
+    public MentorResponse explainCode(MentorRequest request, String authHeader) {
+        return responseOf(generate(request, MentorMode.EXPLAIN_CODE, authHeader));
     }
 
 }

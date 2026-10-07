@@ -14,3 +14,7 @@ spring:
         chat:
           options:
             model: gemini-3.8-flash
+            
+logging:
+  level:
+    org.springframework.security: DEBUG
