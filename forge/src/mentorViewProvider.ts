@@ -3,7 +3,7 @@ import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as path from 'path';
 import { MentorService } from './mentorService';
-import { text } from 'stream/consumers';
+
 
 export class MentorViewProvider implements vscode.WebviewViewProvider {
 
@@ -44,6 +44,16 @@ export class MentorViewProvider implements vscode.WebviewViewProvider {
                     console.error("Error: ", errorMessage);
                     webviewView.webview.postMessage({ command: 'messageresponse', text: "Error: " + errorMessage });
                 }
+            } else if (message.command === 'giveHint') {
+                try {
+
+                    const response = await this.mentorService.giveHint(message.query, 'gemini');
+                    webviewView.webview.postMessage({ command: 'hintresponse', text: response });
+                } catch (err) {
+                    const errorMessage = (err instanceof Error) ? err.message : "Error";
+                    console.error("Error: ", errorMessage);
+                    webviewView.webview.postMessage({ command: 'hintresponse', text: "Error: " + errorMessage });
+                }
             }
         });
 
@@ -57,7 +67,7 @@ export class MentorViewProvider implements vscode.WebviewViewProvider {
             code: code
         });
     }
-    
+
     private _getReactHtml(webview: vscode.Webview): string {
 
         const distPath = path.join(

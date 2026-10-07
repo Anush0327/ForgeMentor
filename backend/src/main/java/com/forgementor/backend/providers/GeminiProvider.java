@@ -33,14 +33,6 @@ public class GeminiProvider implements MentorProvider {
 
         String response;
 
-        System.out.println("AUTH HEADER PRESENT: "
-        + (request.getAuthHeader() != null));
-        System.out.println("AUTH HEADER LENGTH: "
-        + (request.getAuthHeader() != null ? request.getAuthHeader().length() : 0));
-        System.out.println("AUTH HEADER STARTS WITH BEARER: "
-        + (request.getAuthHeader() != null &&
-        request.getAuthHeader().startsWith("Bearer ")));
-
         if (request.getAuthHeader() != null
                 && request.getAuthHeader().startsWith("Bearer ")) {
 

@@ -54,6 +54,39 @@ function Chat() {
         });
     };
 
+    const handleGetHint = async () => {
+        if (!input.trim()) return;
+
+        const userMessage: MessageType = {
+            id: Date.now(),
+            role: "user",
+            content: input,
+            timestamp: new Date()
+        };
+        setMessages((prev) => [...prev, userMessage]);
+        setInput("");
+        setLoading(true);
+
+        const listener = (event: MessageEvent) => {
+            if (event.data.command === "hintresponse") {
+                const response: MessageType = {
+                    id: Date.now() + 1,
+                    role: "mentor",
+                    content: event.data.text,
+                    timestamp: new Date()
+                };
+                setMessages((prev) => [...prev, response]);
+                setLoading(false);
+                window.removeEventListener("message", listener);
+            }
+        };
+        window.addEventListener("message", listener);
+        vscode.postMessage({
+            command: "giveHint",
+            query: userMessage.content,
+        });
+    }
+
     return (
         <div className="chat-container">
             <div className="messages-list">
@@ -91,6 +124,9 @@ function Chat() {
                 />
                 <button onClick={handleSubmit} disabled={loading || !input.trim()}>
                     Send
+                </button>
+                <button onClick={handleGetHint} disabled={loading || !input.trim()}>
+                    Get Hint
                 </button>
             </div>
         </div>
