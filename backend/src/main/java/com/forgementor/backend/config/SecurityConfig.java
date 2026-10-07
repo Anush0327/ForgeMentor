@@ -14,13 +14,14 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(
-                    "/api/auth/test",
-                    "/api/ask-mentor",
-                    "/api/give-hint",
-                    "/api/explain-code"
-                ).permitAll()
+                        "/api/auth/test",
+                        "/api/ask-mentor",
+                        "/api/give-hint",
+                        "/api/explain-code",
+                        "/actuator/health")
+                .permitAll()
                 .anyRequest().authenticated()
-            );
+        );
 
         return http.build();
     }
