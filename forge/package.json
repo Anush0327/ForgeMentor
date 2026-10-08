@@ -66,9 +66,10 @@
     }
   },
   "scripts": {
-    "vscode:prepublish": "npm run compile",
+    "vscode:prepublish": "npm run build:webview && npm run compile",
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./",
+    "build:webview": "npm --prefix webview run build",
     "pretest": "npm run compile && npm run lint",
     "lint": "eslint src",
     "test": "vscode-test"
