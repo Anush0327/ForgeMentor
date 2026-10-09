@@ -7,6 +7,9 @@ import com.forgementor.backend.dto.MentorProviderRequest;
 import com.forgementor.backend.dto.MentorProviderResponse;
 import com.forgementor.backend.dto.MentorMode;
 
+import java.io.File;
+import java.io.IOException;
+
 import org.springframework.ai.google.genai.GoogleGenAiChatModel;
 
 @Component("gemini")
