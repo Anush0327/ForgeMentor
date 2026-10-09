@@ -1,4 +1,4 @@
-name: ForgeMentor Extension Build
+name: ForgeMentor Extension Build and Publish
 
 on:
   push:
@@ -13,6 +13,9 @@ on:
       - 'forge/**'
       - '.github/workflows/extension-build.yml'
 
+  release:
+    types: [published]
+
 permissions:
   contents: read
 
@@ -23,6 +26,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          # For a published release, build the exact commit associated with its tag.
+          ref: ${{ github.event_name == 'release' && github.event.release.tag_name || github.sha }}
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -32,6 +38,19 @@ jobs:
           cache-dependency-path: |
             forge/package-lock.json
             forge/webview/package-lock.json
+
+      - name: Set release version from GitHub release tag
+        if: github.event_name == 'release'
+        working-directory: forge
+        env:
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+        run: |
+          VERSION="${RELEASE_TAG#v}"
+          if ! [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "Release tag must be vMAJOR.MINOR.PATCH (for example, v0.1.1). Got: $RELEASE_TAG"
+            exit 1
+          fi
+          npm version "$VERSION" --no-git-tag-version --allow-same-version
 
       - name: Install webview dependencies
         working-directory: forge/webview
@@ -53,8 +72,27 @@ jobs:
         working-directory: forge
         run: npx vsce package
 
-      - name: Upload VSIX
+      - name: Upload VSIX artifact
         uses: actions/upload-artifact@v4
         with:
           name: forgementor-extension
           path: forge/*.vsix
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Publish VSIX to VS Code Marketplace
+        if: github.event_name == 'release'
+        working-directory: forge
+        env:
+          VSCE_PAT: ${{ secrets.VSCE_PAT }}
+        run: |
+          if [ -z "$VSCE_PAT" ]; then
+            echo "Missing GitHub Actions secret VSCE_PAT. Add a Marketplace publishing token in repository secrets."
+            exit 1
+          fi
+          VSIX_FILE="$(find . -maxdepth 1 -name '*.vsix' -print -quit)"
+          if [ -z "$VSIX_FILE" ]; then
+            echo "No VSIX package was generated."
+            exit 1
+          fi
+          npx vsce publish --packagePath "$VSIX_FILE"
