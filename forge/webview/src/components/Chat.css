@@ -369,7 +369,7 @@
   font-size: 10px;
 }
 
-.clear-selection {
+.input-area .clear-selection {
   flex: 0 0 auto;
   width: 25px;
   height: 25px;
@@ -384,12 +384,12 @@
   cursor: pointer;
 }
 
-.clear-selection:hover:not(:disabled) {
+.input-area .clear-selection:hover:not(:disabled) {
   color: var(--text-primary);
   background: var(--vscode-toolbar-hoverBackground, var(--glass-highlight));
 }
 
-.clear-selection:disabled {
+.input-area .clear-selection:disabled {
   opacity: 0.4;
   cursor: not-allowed;
 }
